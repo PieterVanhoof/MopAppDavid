@@ -1,10 +1,13 @@
 package be.ehb.mopapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import be.ehb.mopapp.model.MopDAO;
@@ -15,6 +18,27 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rvMopjes;
     private MopAdapter adapter;
+
+    //aanmaken van het menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.hoofd_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //iets aangeraakt in het menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //welk item?
+        if(item.getItemId() == R.id.mi_add){
+            //start navigatie
+            Intent intent = new Intent(this, DetailActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
                 verwijzing.tvClou.setVisibility(View.VISIBLE);
             }
         }));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //adapter te updaten
+        adapter = new MopAdapter(MopDAO.getInstance().getMopLijst());
+        //recyclerview updaten vanuit adapter
+        adapter.notifyDataSetChanged();
     }
 }

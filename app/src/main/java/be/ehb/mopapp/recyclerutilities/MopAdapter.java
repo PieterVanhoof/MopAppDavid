@@ -21,12 +21,13 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
     //viewholder pattern
     //klasse die verwijzingen bijhoud naar elementen in layout
     //klasse enkel hier nodig, -> inner class
-    class MopViewHolder extends RecyclerView.ViewHolder{
+    public class MopViewHolder extends RecyclerView.ViewHolder{
         //verwijzingen naar elementen in layout
-        final TextView tvMop, tvClou;
+        public final TextView tvMop, tvClou;
 
         public MopViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setTag(this);
             tvMop = itemView.findViewById(R.id.tv_mop);
             tvClou = itemView.findViewById(R.id.tv_clou);
         }

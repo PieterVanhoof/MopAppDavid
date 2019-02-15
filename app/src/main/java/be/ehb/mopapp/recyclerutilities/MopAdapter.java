@@ -3,6 +3,7 @@ package be.ehb.mopapp.recyclerutilities;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import be.ehb.mopapp.R;
 import be.ehb.mopapp.model.Mop;
@@ -19,6 +21,7 @@ import be.ehb.mopapp.model.Mop;
  * Created by ontlener on 14/02/2019. ;)
  */
 public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> implements Filterable {
+
 
     //viewholder pattern
     //klasse die verwijzingen bijhoud naar elementen in layout
@@ -72,8 +75,40 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> i
 
     @Override
     public Filter getFilter() {
-        return null;
+        //anonymous class
+        return new Filter() {
+            //door de data gaan en enkele items uit de lijsten filteren
+            //resultatenset opbouwen
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                //wat is er getypt
+                String zoekterm = constraint.toString();
+
+                //is er niets getypt, toon alles
+                if (zoekterm.isEmpty()){
+                    filteredItems = items;
+                }else{
+                    //is er iets getypt, overloop alle items en kijk na of zoekterm in moppen voorkomen
+                    ArrayList<Mop> tempList = new ArrayList<>();
+                    for( Mop m : items ){
+                        if(m.getMop().contains(zoekterm) || m.getClou().contains(zoekterm) ){
+                            //geldig, toevoegen aan lijst
+                            tempList.add(m);
+                        }
+                    }
+                    filteredItems = tempList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredItems;
+                return filterResults;
+            }
+
+            //resultatenset komt binnen, gebruiken om lijst te updaten met wat overblijft na het filteren
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredItems = (ArrayList<Mop>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
-
-
 }

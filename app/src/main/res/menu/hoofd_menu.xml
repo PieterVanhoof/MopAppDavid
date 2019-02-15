@@ -7,7 +7,7 @@
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/txt_mi_search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="always"></item>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/mi_add"
         android:icon="@android:drawable/ic_menu_add"

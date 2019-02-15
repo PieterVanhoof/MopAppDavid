@@ -30,4 +30,12 @@ public class Mop {
     public void setClou(String clou) {
         this.clou = clou;
     }
+
+    @Override
+    public String toString() {
+        return "Mop{" +
+                "mop='" + mop + '\'' +
+                ", clou='" + clou + '\'' +
+                '}';
+    }
 }

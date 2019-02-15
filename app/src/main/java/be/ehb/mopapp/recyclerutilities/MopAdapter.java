@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import be.ehb.mopapp.model.Mop;
 /**
  * Created by ontlener on 14/02/2019. ;)
  */
-public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
+public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> implements Filterable {
 
     //viewholder pattern
     //klasse die verwijzingen bijhoud naar elementen in layout
@@ -33,10 +35,11 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
         }
     }
 
-    private ArrayList<Mop> items;
+    private ArrayList<Mop> items, filteredItems;
 
     public MopAdapter(ArrayList<Mop> items) {
         this.items = items;
+        this.filteredItems = items;
     }
 
     //hoe ziet de rij eruit
@@ -55,7 +58,7 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MopViewHolder mopViewHolder, int i) {
 
-        Mop mopVoorDeRij = items.get(i);
+        Mop mopVoorDeRij = filteredItems.get(i);
 
         mopViewHolder.tvMop.setText( mopVoorDeRij.getMop() );
         mopViewHolder.tvClou.setText( mopVoorDeRij.getClou() );
@@ -64,7 +67,12 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
     //hoeveel rijen tekenen?
     @Override
     public int getItemCount() {
-        return items.size();
+        return filteredItems.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return null;
     }
 
 
